@@ -2,8 +2,10 @@
 A flask and python based shortener
 
 == Roadmap :
-* [ ] Pretty front
-* [ ] Statistic
+* [x] Pretty front
+* [ ] Make *_domain work
+* [ ] View of actual link
+* [ ] Statistics
 * [ ] Oauth
 
 == Config :

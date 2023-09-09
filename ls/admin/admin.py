@@ -1,23 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, request, current_app
-from .db import get_db
-import validators, re
+import re
+import validators
+from flask import Blueprint, render_template, request
+from flask_login import login_required
+
+from ls.db import get_db
 
 admin = Blueprint("admin", __name__)
-
-
-# @admin.route("/login")
-# def login():
-#     return render_template("login.html")
-#
-#
-# @admin.route("/login", methods=["POST"])
-# def login_post():
-#     return redirect(url_for("create_link.create"))
-#
-#
-# @admin.route("/logout")
-# def logout():
-#     return "Logout"
 
 
 def verify_link_exist(url) -> bool:
@@ -30,13 +18,15 @@ def verify_link_exist(url) -> bool:
         return False
 
 
-@admin.route("/", host="localhost")
+@admin.route("/", host="127.0.0.1")
+@login_required
 def create() -> str:
     return render_template("create_link.html")
 
 
-@admin.route("/", methods=["POST"])
-def create_post() -> str:
+@admin.route("/", methods=["POST"], host="127.0.0.1")
+@login_required
+def create_post() -> tuple[str, int]:
     db = get_db()
     shortened_url = request.form["shortened_url"]
     real_url = request.form["real_url"]

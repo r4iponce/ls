@@ -7,4 +7,11 @@
     <input type="checkbox" name="remember">
     <button>Login</button>
 </form>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div>
+        {{ messages[0] }}
+    </div>
+{% endif %}
+{% endwith %}
 </html>

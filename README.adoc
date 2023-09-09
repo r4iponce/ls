@@ -1,6 +1,11 @@
 = ls, Link shortener
 A flask and python based shortener
 
+== Roadmap :
+* [ ] Pretty front
+* [ ] Statistic
+* [ ] Oauth
+
 == Config :
 The project use yaml, because yaml is cool. The default path is `config.yml`, you can change it by `LS_CONFIG_PATH` variable. Example config :
 

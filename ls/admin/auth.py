@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, request, flash, url_for, redirect
 import random
 import string
 
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from ls.admin.user import load_user
 from ls.db import get_db
@@ -67,7 +67,8 @@ def login_post():
 
 @auth.route("/logout")
 def logout():
-    return "Logout"
+    logout_user()
+    return redirect(url_for("auth.login"))
 
 
 def create_user(user: str, password: str) -> None:

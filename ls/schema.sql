@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS link;
+CREATE TABLE user
+(
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    password TEXT        NOT NULL
+);
+
+CREATE TABLE link (
+    url TEXT PRIMARY KEY,
+    real_url TEXT NOT NULL,
+    owner REFERENCES user(id) NULL
+);

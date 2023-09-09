@@ -1,0 +1,21 @@
+= ls, Link shortener
+A flask and python based shortener
+
+== Config :
+The project use yaml, because yaml is cool. The default path is `config.yml`, you can change it by `LS_CONFIG_PATH` variable. Example config :
+
+
+
+[,yaml]
+----
+database: "db.sql"
+secret_key: "dev"
+debug: true
+admin_domain: "admin.example.org"
+shortener_domain: "example.org"
+----
+
+
+== Project structure
+=== Database schema
+image:docs/db.svg[The DB schema]

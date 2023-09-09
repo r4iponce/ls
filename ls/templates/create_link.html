@@ -1,9 +1,15 @@
-<!DOCTYPE html>
-<html>
-<h3>Create shorten link</h3>
+{% extends "base.html" %}
+{% block content %}
+<h3 class="uk-h3">Create shorten link</h3>
 <form method="POST" action="/">
-    <input placeholder="Shortened url" name="shortened_url">
-    <input placeholder="Real url" type="url" name="real_url">
-    <button>Create</button>
+    <div class="uk-margin uk-flex uk-flex-column">
+        <label for="shortened_url">Source url</label>
+        <input class="uk-input" placeholder="example" name="shortened_url">
+    </div>
+    <div class="uk-margin uk-flex uk-flex-column">
+        <label for="real_url">Redirect to :</label>
+        <input class="uk-input" placeholder="https://example.org" type="url" name="real_url">
+    </div>
+    <button class="uk-button uk-form-width-small">Create</button>
 </form>
-</html>
+{% endblock %}

@@ -1,17 +1,28 @@
-<!DOCTYPE html>
-<html>
-<h3>Login</h3>
+{% extends "base.html" %}
+{% block content %}
+<h3 class="uk-h3">Login</h3>
 <form method="POST" action="/login">
-    <input placeholder="Your username" name="user">
-    <input placeholder="Your password" type="password" name="password">
-    <input type="checkbox" name="remember">
-    <button>Login</button>
+    <div class="uk-margin uk-flex uk-flex-column">
+        <label for="user">Username :</label>
+        <input class="uk-input" placeholder="Your username" name="user">
+    </div>
+    <div class="uk-margin uk-flex uk-flex-column">
+        <label for="password">Password :</label>
+        <input class="uk-input" placeholder="Your password" type="password" name="password">
+    </div>
+    <div class="uk-margin">
+        <label for="remember">Remember :</label>
+        <input class="uk-checkbox " type="checkbox" name="remember">
+    </div>
+    <div class="uk-margin">
+        <button class="uk-button">Login</button>
+    </div>
 </form>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-    <div>
-        {{ messages[0] }}
-    </div>
+<div>
+    {{ messages[0] }}
+</div>
 {% endif %}
 {% endwith %}
-</html>
+{% endblock %}

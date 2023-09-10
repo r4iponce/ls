@@ -1,5 +1,6 @@
 = ls, Link shortener
-A flask and python based shortener
+
+A https://flask.palletsprojects.com/[flask] and python based shortener. The ui use https://getuikit.com/[uikit]
 
 == Roadmap :
 * [ ] View of actual link
@@ -24,4 +25,4 @@ minimum_password_length: 16 # Default is 12
 
 == Project structure
 === Database schema
-image:docs/db.svg[The DB schema]
+image:docs/db.jpg[The DB schema]

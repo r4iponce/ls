@@ -7,24 +7,13 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 from werkzeug import Response
 
-from ls import get_config_dict
+from ls.config import get_admin_domain
 from ls.db import get_db
+from ls.utils import verify_link_exist
 
 admin = Blueprint("admin", __name__)
 
-SHORTENER_DOMAIN = get_config_dict()["shortener_domain"]
-
-
-def verify_link_exist(url: str) -> bool:
-    """
-    Verify if a url already exist in database
-    :param url: redirect source url
-    :return: Bool, true if existed, else false.
-    """
-    db = get_db()
-    query = db.execute("SELECT EXISTS(SELECT * FROM link  WHERE url=?)", (url,))
-    result = query.fetchall()
-    return result[0][0] == 1
+SHORTENER_DOMAIN = get_admin_domain()
 
 
 @admin.route("/", host=SHORTENER_DOMAIN)

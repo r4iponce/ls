@@ -1,18 +1,18 @@
-{% extends "base.html" %}
+{% extends "base.html.j2" %}
 {% block content %}
 <h3 class="uk-h3">Login</h3>
 <form method="POST" action="/login">
     <div class="uk-margin uk-flex uk-flex-column">
-        <label for="user">Username :</label>
-        <input class="uk-input" placeholder="Your username" name="user">
+        <label for="password-input">Username :</label>
+        <input id="user-input" class="uk-input" placeholder="Your username" name="user">
     </div>
     <div class="uk-margin uk-flex uk-flex-column">
-        <label for="password">Password :</label>
-        <input class="uk-input" placeholder="Your password" type="password" name="password">
+        <label for="password-input">Password :</label>
+        <input id="password-input" class="uk-input" placeholder="Your password" type="password" name="password">
     </div>
     <div class="uk-margin">
-        <label for="remember">Remember :</label>
-        <input class="uk-checkbox " type="checkbox" name="remember">
+        <label for="remember-checkbox">Remember :</label>
+        <input id="remember-checkbox" class="uk-checkbox " type="checkbox" name="remember">
     </div>
     <div class="uk-margin">
         <button class="uk-button">Login</button>

@@ -34,7 +34,7 @@ def create() -> str:
     Shorten link create page
     :return: the html template.
     """
-    return render_template("create_link.html")
+    return render_template("create_link.html.j2")
 
 
 @admin.route("/", methods=["POST"], host=SHORTENER_DOMAIN)
@@ -64,9 +64,9 @@ def create_post() -> Response | tuple[str, int]:
             "Incorrect value",
             "error",
         )
-        return render_template("create_link.html"), 400
+        return render_template("create_link.html.j2"), 400
     flash(
         "Link already exist",
         "error",
     )
-    return render_template("create_link.html"), 400
+    return render_template("create_link.html.j2"), 400

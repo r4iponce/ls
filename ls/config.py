@@ -19,3 +19,18 @@ def get_config_dict() -> dict:
     """:return: A dict with each item in yaml"""
     with Path.open(get_config_file()) as config:
         return yaml.safe_load(config)
+
+
+def get_shortener_domain() -> str:
+    """:return: shortener_domain from config"""
+    return get_config_dict()["shortener_domain"]
+
+
+def get_admin_domain() -> str:
+    """:return: admin_domain from config"""
+    return get_config_dict()["admin_domain"]
+
+
+def get_root_redirect() -> str:
+    """:return: root_redirect from config"""
+    return get_config_dict()["root_redirect"]

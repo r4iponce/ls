@@ -40,7 +40,7 @@ def create_app() -> Flask:
     login_manager.init_app(app)
 
     @login_manager.user_loader
-    def load_user(user_id: int) -> User:
+    def load_user(user_id: int) -> User | None:
         project_db = get_db()
         curs = project_db.cursor()
         curs.execute("SELECT * from user where id = (?)", [user_id])

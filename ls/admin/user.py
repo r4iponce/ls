@@ -30,7 +30,7 @@ class User(UserMixin):
         return self.name
 
 
-def load_user(user_id: int) -> User:
+def load_user(user_id: int) -> User | None:
     db = get_db()
     curs = db.cursor()
     curs.execute("SELECT * from user where id = (?)", [user_id])

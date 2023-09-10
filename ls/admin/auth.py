@@ -1,4 +1,4 @@
-"""Manager user authentification."""
+"""Manager user authentication."""
 
 import random
 import string

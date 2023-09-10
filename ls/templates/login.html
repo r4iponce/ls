@@ -20,8 +20,8 @@
 </form>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<div>
-    {{ messages[0] }}
+<div class="uk-alert-danger uk-margin">
+    <p class="uk-padding-small">{{ messages[0] }}</p>
 </div>
 {% endif %}
 {% endwith %}

@@ -12,4 +12,18 @@
     </div>
     <button class="uk-button uk-form-width-small">Create</button>
 </form>
+{% with messages = get_flashed_messages(category_filter=["success"]) %}
+{% if messages %}
+<div class="uk-alert-success uk-margin">
+    <p class="uk-padding-small">{{ messages[0] }}</p>
+</div>
+{% endif %}
+{% endwith %}
+{% with messages = get_flashed_messages(category_filter=["error"]) %}
+{% if messages %}
+<div class="uk-alert-danger uk-margin">
+    <p class="uk-padding-small">{{ messages[0] }}</p>
+</div>
+{% endif %}
+{% endwith %}
 {% endblock %}

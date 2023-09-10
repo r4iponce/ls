@@ -3,12 +3,12 @@
 import re
 
 import validators
-from flask import Blueprint, render_template, request
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
+from werkzeug import Response
 
 from ls import get_config_dict
 from ls.db import get_db
-
 
 admin = Blueprint("admin", __name__)
 
@@ -39,7 +39,7 @@ def create() -> str:
 
 @admin.route("/", methods=["POST"], host=SHORTENER_DOMAIN)
 @login_required
-def create_post() -> tuple[str, int]:
+def create_post() -> Response | tuple[str, int]:
     """
     Processes user form and insert data in DB
     :return: A tuple[str, int] with return message and http code.
@@ -55,6 +55,18 @@ def create_post() -> tuple[str, int]:
                 (shortened_url, real_url),
             ),
             db.commit()
-            return "success", 200
-        return "Incorrect value", 400
-    return "Link already exist", 400
+            flash(
+                f"https://{SHORTENER_DOMAIN}/{shortened_url} redirect to {real_url}",
+                "success",
+            )
+            return redirect(url_for("admin.create_post"))
+        flash(
+            "Incorrect value",
+            "error",
+        )
+        return render_template("create_link.html"), 400
+    flash(
+        "Link already exist",
+        "error",
+    )
+    return render_template("create_link.html"), 400

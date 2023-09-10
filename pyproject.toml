@@ -7,6 +7,7 @@ ignore = [
     "D401", # First line of docstring should be in imperative mood: "X"
     "D203", # one-blank-line-before-class
     "D212", # multi-line-summary-second-line
+    "PLR2004", # magic-value-comparison
 ]
 select = [
     "F", # Pyflakes

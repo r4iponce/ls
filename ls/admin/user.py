@@ -26,6 +26,9 @@ class User(UserMixin):
     def get_id(self):
         return self.user_id
 
+    def get_name(self):
+        return self.name
+
 
 def load_user(user_id: int) -> User:
     db = get_db()

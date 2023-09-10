@@ -3,7 +3,7 @@
 from flask import Blueprint, redirect, render_template
 from werkzeug import Response
 
-from ls.config import get_shortener_domain
+from ls.config import get_root_redirect, get_shortener_domain
 from ls.db import get_db
 from ls.utils import verify_link_exist
 
@@ -25,3 +25,9 @@ def make_redirect(path: str) -> Response | tuple[str, int]:
         return redirect(query.fetchall()[0][0])
 
     return render_template("404.html.j2"), 404
+
+
+@redirect_url.route("/", host=shortener_domain)
+def root_redirect() -> Response:
+    """:return: Redirect to defined url"""
+    return redirect(get_root_redirect())

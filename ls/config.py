@@ -34,3 +34,10 @@ def get_admin_domain() -> str:
 def get_root_redirect() -> str:
     """:return: root_redirect from config"""
     return get_config_dict()["root_redirect"]
+
+
+def get_minimum_password_length() -> int:
+    """:return: Configured minimum password length, default is 12"""
+    if "minimum_password_length" in get_config_dict():
+        return int(get_config_dict()["minimum_password_length"])
+    return 12

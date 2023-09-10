@@ -20,6 +20,7 @@ secret_key: "dev"
 debug: true
 admin_domain: "admin.example.org"
 shortener_domain: "example.org"
+minimum_password_length: 16 # Default is 12
 ----
 
 

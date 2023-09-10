@@ -60,5 +60,5 @@ exclude = [
 ]
 format = "grouped"
 
-[tool.ruff.isort]
-lines-after-imports = 2
+[tool.isort]
+profile = "black"

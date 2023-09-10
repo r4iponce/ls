@@ -6,9 +6,9 @@ from pathlib import Path
 from flask import Flask
 from flask_login import LoginManager
 
-from .admin.user import User
-from .config import get_config_dict
-from .db import get_db
+from ls.admin.user import User
+from ls.config import get_config_dict
+from ls.db import get_db
 
 
 def create_app() -> Flask:
@@ -51,8 +51,7 @@ def create_app() -> Flask:
 
     from ls.admin.admin import admin as admin_blueprint
     from ls.admin.auth import auth as auth_blueprint
-
-    from .redirect import redirect_url as redirect_blueprint
+    from ls.redirect import redirect_url as redirect_blueprint
 
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(auth_blueprint, cli_group=None)

@@ -3,7 +3,6 @@ from flask import Blueprint, Response, redirect
 
 from .db import get_db
 
-
 redirect_url = Blueprint("redirect", __name__)
 
 

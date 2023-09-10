@@ -6,10 +6,13 @@ import validators
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
+from ls import get_config_dict
 from ls.db import get_db
 
 
 admin = Blueprint("admin", __name__)
+
+SHORTENER_DOMAIN = get_config_dict()["shortener_domain"]
 
 
 def verify_link_exist(url: str) -> bool:
@@ -24,7 +27,7 @@ def verify_link_exist(url: str) -> bool:
     return result[0][0] == 1
 
 
-@admin.route("/", host="127.0.0.1")
+@admin.route("/", host=SHORTENER_DOMAIN)
 @login_required
 def create() -> str:
     """
@@ -34,7 +37,7 @@ def create() -> str:
     return render_template("create_link.html")
 
 
-@admin.route("/", methods=["POST"], host="127.0.0.1")
+@admin.route("/", methods=["POST"], host=SHORTENER_DOMAIN)
 @login_required
 def create_post() -> tuple[str, int]:
     """

@@ -8,15 +8,19 @@ import click
 import werkzeug.security
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, logout_user
+from werkzeug import Response
 
+from ls import get_config_dict
 from ls.admin.user import load_user
 from ls.db import get_db
-
 
 auth = Blueprint(
     "auth",
     __name__,
 )
+
+
+SHORTENER_DOMAIN = get_config_dict()["shortener_domain"]
 
 
 def verify_user_exist(name: str) -> bool:
@@ -51,7 +55,7 @@ def validate_login(name: str, password: str) -> bool:
     return False
 
 
-@auth.route("/login", host="127.0.0.1")
+@auth.route("/login", host=SHORTENER_DOMAIN)
 def login() -> str:
     """
     Login page
@@ -60,8 +64,8 @@ def login() -> str:
     return render_template("login.html")
 
 
-@auth.route("/login", host="127.0.0.1", methods=["POST"])
-def login_post() -> str:
+@auth.route("/login", host=SHORTENER_DOMAIN, methods=["POST"])
+def login_post() -> Response:
     """
     Process login page form
     :return: redirect to create link if correct auth, else return to login page.
@@ -71,18 +75,18 @@ def login_post() -> str:
     password = request.form.get("password")
     remember = bool(request.form.get("remember"))
     curs = db.cursor()
-    curs.execute("SELECT * FROM user WHERE name=?", [user])
-    user_data_list = list(curs.fetchone())
-    user_data = load_user(user_data_list[0])
     if validate_login(user, password):
+        curs.execute("SELECT * FROM user WHERE name=?", [user])
+        user_data_list = list(curs.fetchone())
+        user_data = load_user(user_data_list[0])
         login_user(user_data, remember=remember)
         return redirect(url_for("admin.create"))
     flash("Bad user or password, please retry")
     return redirect(url_for("auth.login"))
 
 
-@auth.route("/logout")
-def logout() -> str:
+@auth.route("/logout", host=SHORTENER_DOMAIN)
+def logout() -> Response:
     """
     Logout user
     :return: redirect to login page.

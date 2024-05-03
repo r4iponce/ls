@@ -1,5 +1,5 @@
 click==8.1.7
-werkzeug==2.3.7
+werkzeug==3.0.2
 flask==2.3.3
 validators==0.22.0
 PyYAML==6.0.1

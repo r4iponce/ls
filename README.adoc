@@ -8,9 +8,7 @@ A https://flask.palletsprojects.com/[flask] and python based shortener. The ui u
 * [ ] Oauth
 
 == Config :
-The project use yaml, because yaml is cool. The default path is `config.yml`, you can change it by `LS_CONFIG_PATH` variable. Example config :
-
-
+The project use yaml, because yaml is cool. The default path is `config.yaml`, you can change it by `LS_CONFIG_PATH` variable. Example config :
 
 [,yaml]
 ----

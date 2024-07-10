@@ -3,4 +3,4 @@ __pycache__/
 .idea/
 
 db.sql
-config.yml
+config.yaml

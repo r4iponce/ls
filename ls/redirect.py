@@ -9,10 +9,8 @@ from ls.utils import verify_link_exist
 
 redirect_url = Blueprint("redirect", __name__)
 
-shortener_domain = get_shortener_domain()
 
-
-@redirect_url.route("/<path:path>", host=shortener_domain)
+@redirect_url.route("/<path:path>", host=get_shortener_domain())
 def make_redirect(path: str) -> Response | tuple[str, int]:
     """
 
@@ -27,7 +25,7 @@ def make_redirect(path: str) -> Response | tuple[str, int]:
     return render_template("404.html.j2"), 404
 
 
-@redirect_url.route("/", host=shortener_domain)
+@redirect_url.route("/", host=get_shortener_domain())
 def root_redirect() -> Response:
     """:return: Redirect to defined url"""
     return redirect(get_root_redirect())

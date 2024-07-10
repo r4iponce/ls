@@ -10,17 +10,14 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug import Response
 
-from ls import get_config_dict
 from ls.admin.user import load_user
-from ls.config import get_minimum_password_length
+from ls.config import get_admin_domain, get_minimum_password_length
 from ls.db import get_db
 
 auth = Blueprint(
     "auth",
     __name__,
 )
-
-SHORTENER_DOMAIN = get_config_dict()["shortener_domain"]
 
 
 def verify_user_exist(name: str) -> bool:
@@ -56,7 +53,7 @@ def validate_login(name: str, password: str) -> bool:
     return False
 
 
-@auth.route("/login", host=SHORTENER_DOMAIN)
+@auth.route("/login", host=get_admin_domain())
 def login() -> str:
     """
     Login page
@@ -65,7 +62,7 @@ def login() -> str:
     return render_template("login.html.j2")
 
 
-@auth.route("/login", host=SHORTENER_DOMAIN, methods=["POST"])
+@auth.route("/login", host=get_admin_domain(), methods=["POST"])
 def login_post() -> Response:
     """
     Process login page form
@@ -94,7 +91,7 @@ def login_post() -> Response:
     return redirect(url_for("auth.login"))
 
 
-@auth.route("/logout", host=SHORTENER_DOMAIN)
+@auth.route("/logout", host=())
 def logout() -> Response:
     """
     Logout user

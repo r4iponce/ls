@@ -3,21 +3,26 @@
 import re
 
 import validators
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import current_user, login_required
 from werkzeug import Response
 
-from ls.config import get_admin_domain, get_shortener_domain
+from ls.config import get_admin_domain
 from ls.db import get_db
 from ls.utils import verify_link_exist
 
 admin = Blueprint("admin", __name__)
 
-ADMIN_DOMAIN = get_admin_domain()
-SHORTENER_DOMAIN = get_shortener_domain()
 
-
-@admin.route("/", host=ADMIN_DOMAIN)
+@admin.route("/", host=get_admin_domain())
 @login_required
 def create() -> str:
     """
@@ -27,7 +32,7 @@ def create() -> str:
     return render_template("create_link.html.j2")
 
 
-@admin.route("/", methods=["POST"], host=ADMIN_DOMAIN)
+@admin.route("/", methods=["POST"], host=get_admin_domain)
 @login_required
 def create_post() -> Response | tuple[str, int]:
     """
@@ -47,7 +52,7 @@ def create_post() -> Response | tuple[str, int]:
                 ),
                 db.commit()
                 flash(
-                    f"https://{SHORTENER_DOMAIN}/{shortened_url} redirect to {real_url}",  # noqa: E501
+                    f"https://{current_app.config["SHORTENER_DOMAIN"]}/{shortened_url} redirect to {real_url}",  # noqa: E501
                     "success",
                 )
                 return redirect(url_for("admin.create_post"))

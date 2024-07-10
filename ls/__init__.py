@@ -7,7 +7,7 @@ from flask import Flask
 from flask_login import LoginManager
 
 from ls.admin.user import User
-from ls.config import get_config_dict
+from ls.config import get_config
 from ls.db import get_db
 
 
@@ -17,15 +17,15 @@ def create_app() -> Flask:
     :return: Flask.
     """
     app = Flask(__name__)
-    app.run(host="::", port=5000, debug=True)
-    config_dict = get_config_dict()
+    config = get_config()
+
+    app.run(host="::", port=config.listen_port, debug=config.debug)
     app.config.update(
         {
-            "DATABASE": config_dict["database"],
-            "SECRET_KEY": config_dict["secret_key"],
-            "DEBUG": config_dict["debug"],
-            "ADMIN_DOMAIN": config_dict["admin_domain"],
-            "SHORTENER_DOMAIN": config_dict["shortener_domain"],
+            "DATABASE": config.database,
+            "SECRET_KEY": config.secret_key,
+            "ADMIN_DOMAIN": config.admin_domain,
+            "SHORTENER_DOMAIN": config.shortener_domain,
         }
     )
 
@@ -33,7 +33,8 @@ def create_app() -> Flask:
 
     db.init_app(app)
     with contextlib.suppress(OSError):
-        Path.mkdir(app.instance_path, parents=True)
+        path = Path(app.instance_path)
+        Path.mkdir(path, parents=True)
 
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"

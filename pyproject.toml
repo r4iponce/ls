@@ -59,7 +59,6 @@ exclude = [
     "instances",
     "schema.sql"
 ]
-format = "grouped"
 
 [tool.isort]
 profile = "black"

@@ -38,7 +38,7 @@ def init_db() -> None:
     """
     db = get_db()
 
-    with current_app.open_resource("schema.sql") as f:
+    with current_app.open_resource("../sql/schema.sql") as f:
         db.executescript(f.read().decode("utf8"))
 
 

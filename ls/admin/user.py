@@ -1,4 +1,5 @@
 """User management class."""
+
 # ruff: noqa: ANN101, ANN001, D102, ANN201, D103
 from flask_login import UserMixin
 

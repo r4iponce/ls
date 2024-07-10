@@ -1,4 +1,5 @@
 """Sqlite3 database management, use get_db() for connection."""
+
 import sqlite3
 
 import click

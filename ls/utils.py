@@ -1,4 +1,5 @@
 """Function used by >1 file."""
+
 from ls import get_db
 
 

@@ -8,3 +8,8 @@ repos:
     rev: v0.5.1
     hooks:
       - id: ruff
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort

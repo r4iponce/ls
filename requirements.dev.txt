@@ -1,5 +1,5 @@
 click==8.1.7
-werkzeug==3.0.1
+werkzeug==3.0.3
 flask==3.0.3
 validators==0.32.0
 pre-commit==3.7.1

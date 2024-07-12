@@ -20,7 +20,7 @@ class Config:
     root_redirect: str
 
 
-def get_config_file() -> str | None:
+def get_config_file() -> str:
     """
     Fetch config file path from variable, use config.toml per default
     :return: config file path.

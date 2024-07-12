@@ -4,6 +4,7 @@ import sqlite3
 
 import click
 from flask import Flask, current_app, g
+from flask.app import T_teardown
 
 
 def get_db() -> sqlite3.Connection:
@@ -20,7 +21,7 @@ def get_db() -> sqlite3.Connection:
     return g.db
 
 
-def close_db(e=None) -> None:  # noqa: ANN001, ARG001
+def close_db(e: T_teardown = None) -> None:  # noqa: ARG001
     """
     Close database (https://flask.palletsprojects.com/en/1.1.x/tutorial/database/#id1)
     :param e: Error object

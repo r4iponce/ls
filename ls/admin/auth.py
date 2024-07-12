@@ -69,8 +69,18 @@ def login_post() -> Response:
     :return: redirect to create link if correct auth, else return to login page.
     """
     db = get_db()
-    user = request.form.get("user").lower()
+    user = request.form.get("user")
+    if user == "":
+        flash("User cannot be empty", "error")
+        return redirect(url_for("auth.login"))
+
+    user = user.lower()
     password = request.form.get("password")
+
+    if password == "":
+        flash("Password cannot be empty", "error")
+        return redirect(url_for("auth.login"))
+
     remember = bool(request.form.get("remember"))
     curs = db.cursor()
     max_user_length = 100
@@ -148,7 +158,9 @@ def create_user_command(user: str) -> None:
             f"Enter user password here (must be >= {get_minimum_password_length()}) : "
         )
         while len(password) <= get_minimum_password_length() or len(password) > 1024:
-            print(f"To short or to long, minimum {get_minimum_password_length()}, maximum 1024")  # noqa: T201
+            print(  # noqa: T201
+                f"To short or to long, minimum {get_minimum_password_length()}, maximum 1024"  # noqa: E501
+            )
             password = getpass("Enter user password here : ")
         create_user(user, password)
         click.echo(f"User {user} created")

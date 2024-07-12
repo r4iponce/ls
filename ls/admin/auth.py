@@ -1,4 +1,4 @@
-"""Manager user authentication."""
+"""Manage user authentication."""
 
 import random
 import string
@@ -109,7 +109,7 @@ def create_user(user: str, password: str) -> None:
     :return: None.
     """
     hashed_password = werkzeug.security.generate_password_hash(
-        password, method="scrypt"
+        password, method="scrypt:65536:8:2"
     )
     db = get_db()
     db.execute(
@@ -147,8 +147,8 @@ def create_user_command(user: str) -> None:
         password = getpass(
             f"Enter user password here (must be >= {get_minimum_password_length()}) : "
         )
-        while len(password) <= get_minimum_password_length():
-            print(f"To short, minimum {get_minimum_password_length()}")  # noqa: T201
+        while len(password) <= get_minimum_password_length() or len(password) > 1024:
+            print(f"To short or to long, minimum {get_minimum_password_length()}, maximum 1024")  # noqa: T201
             password = getpass("Enter user password here : ")
         create_user(user, password)
         click.echo(f"User {user} created")

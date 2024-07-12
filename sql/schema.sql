@@ -4,7 +4,7 @@ CREATE TABLE user
 (
     id       INTEGER PRIMARY KEY AUTOINCREMENT,
     name     VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(100)        NOT NULL
+    password VARCHAR(1024)        NOT NULL
 );
 
 CREATE TABLE link

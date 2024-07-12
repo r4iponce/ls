@@ -3,8 +3,6 @@
 # ruff: noqa: ANN101, ANN001, D102, ANN201, D103
 from flask_login import UserMixin
 
-from ls.db import get_db
-
 
 class User(UserMixin):
     """Class with user data."""
@@ -29,13 +27,3 @@ class User(UserMixin):
 
     def get_name(self):
         return self.name
-
-
-def load_user(user_id: int) -> User | None:
-    db = get_db()
-    curs = db.cursor()
-    curs.execute("SELECT * from user where id = (?)", [user_id])
-    lu = curs.fetchone()
-    if lu is None:
-        return None
-    return User(int(lu[0]), lu[1], lu[2])

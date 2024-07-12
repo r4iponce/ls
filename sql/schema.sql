@@ -10,6 +10,6 @@ CREATE TABLE user
 CREATE TABLE link
 (
     url      VARCHAR(10) PRIMARY KEY,
-    real_url VARCHAR(100)                 NOT NULL,
+    real_url VARCHAR(1024)                 NOT NULL,
     owner    INTEGER REFERENCES user (id) NOT NULL
 );

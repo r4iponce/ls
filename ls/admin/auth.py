@@ -2,17 +2,14 @@
 
 import random
 import string
-from getpass import getpass
 
-import click
 import werkzeug.security
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug import Response
 
-from ls.admin.user import load_user
-from ls.config import get_admin_domain, get_minimum_password_length
-from ls.db import get_db
+from ls.config.config import get_admin_domain
+from ls.db.db import get_db, get_user
 
 auth = Blueprint(
     "auth",
@@ -70,14 +67,14 @@ def login_post() -> Response:
     """
     db = get_db()
     user = request.form.get("user")
-    if user == "":
+    if user == "" or user is None:
         flash("User cannot be empty", "error")
         return redirect(url_for("auth.login"))
 
     user = user.lower()
     password = request.form.get("password")
 
-    if password == "":
+    if password == "" or password is None:
         flash("Password cannot be empty", "error")
         return redirect(url_for("auth.login"))
 
@@ -88,7 +85,7 @@ def login_post() -> Response:
         if validate_login(user, password):
             curs.execute("SELECT * FROM user WHERE name=?", [user])
             user_data_list = list(curs.fetchone())
-            user_data = load_user(user_data_list[0])
+            user_data = get_user(user_data_list[0])
             login_user(user_data, remember=remember)
             flash(
                 f"Welcome {current_user.get_name()}",
@@ -109,75 +106,3 @@ def logout() -> Response:
     """
     logout_user()
     return redirect(url_for("auth.login"))
-
-
-def create_user(user: str, password: str) -> None:
-    """
-    Create a user
-    :param user: username
-    :param password: password of user
-    :return: None.
-    """
-    hashed_password = werkzeug.security.generate_password_hash(
-        password, method="scrypt:65536:8:2"
-    )
-    db = get_db()
-    db.execute(
-        "INSERT INTO user(name, password) VALUES (?, ?)",
-        (user.lower(), hashed_password),
-    )
-    db.commit()
-    print("User created")  # noqa: T201
-
-
-def delete_user(user: str) -> None:
-    """
-    Delete a user
-    :param user: username
-    :return: None.
-    """
-    db = get_db()
-    db.execute(
-        "DELETE FROM user WHERE name=?",
-        (user.lower(),),
-    )
-    db.commit()
-    print("User deleted")  # noqa: T201
-
-
-@auth.cli.command("create-user")
-@click.argument("user")
-def create_user_command(user: str) -> None:
-    """
-    Cli command for create user
-    :param user: username of new user
-    :return: None.
-    """
-    if not verify_user_exist(user):
-        password = getpass(
-            f"Enter user password here (must be >= {get_minimum_password_length()}) : "
-        )
-        while len(password) <= get_minimum_password_length() or len(password) > 1024:
-            print(  # noqa: T201
-                f"To short or to long, minimum {get_minimum_password_length()}, maximum 1024"  # noqa: E501
-            )
-            password = getpass("Enter user password here : ")
-        create_user(user, password)
-        click.echo(f"User {user} created")
-    else:
-        print("User already exist")  # noqa: T201
-
-
-@auth.cli.command("delete-user")
-@click.argument("user")
-def delete_user_command(user: str) -> None:
-    """
-    Cli command for delete user
-    :param user: username of user to delete
-    :return: None.
-    """
-    if verify_user_exist(user):
-        if input(f"You really want to delete {user} ? (yes or no) : ") == "yes":
-            delete_user(user)
-    else:
-        print("User not exist, nothing to do")  # noqa: T201

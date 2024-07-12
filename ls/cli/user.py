@@ -1,12 +1,16 @@
 """User management cli."""
 
+from typing import TYPE_CHECKING
+
 import click
 from flask import Blueprint
 
-from ls import User
 from ls.admin.auth import verify_user_exist
 from ls.config.config import get_minimum_password_length
 from ls.db.db import create_user, delete_user, list_users
+
+if TYPE_CHECKING:
+    from ls import User
 
 user_cli = Blueprint("user-cli", __name__)
 
@@ -51,8 +55,7 @@ def create_user_command(user: str, password: str) -> None:
 
 @user_cli.cli.command("delete", help="Delete a user")
 @click.argument("user")
-@click.option("--force", "-f", default=False, is_flag=True,
-              help="Remove confirmation")
+@click.option("--force", "-f", default=False, is_flag=True, help="Remove confirmation")
 def delete_user_command(user: str, force: bool) -> None:  # noqa: FBT001
     """
     Cli command for delete user
